@@ -15,21 +15,13 @@
         .tab.active { background: var(--accent); color: white; }
         .content { padding: 16px; display: none; }
         .content.active { display: block; }
-        .card { background: var(--card); border-radius: 24px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-        .img-container { width: 100%; aspect-ratio: 1; background: #000; overflow: hidden; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .info { padding: 16px; }
-        .name { font-size: 19px; font-weight: 800; margin-bottom: 14px; }
-        .props { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .prop-item { background: #151517; padding: 10px; border-radius: 14px; border: 1px solid #242426; }
-        .p-label { font-size: 10px; color: var(--sub); text-transform: uppercase; margin-bottom: 4px; }
-        .p-val { font-size: 13px; font-weight: 600; }
-        .footer-card { padding: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .price { font-size: 20px; font-weight: 800; }
-        .price span { color: var(--accent); font-size: 15px; }
-        .btn { border: none; padding: 12px 24px; border-radius: 14px; font-weight: 700; font-size: 15px; cursor: pointer; }
-        .btn-blue { background: var(--accent); color: white; }
-        .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+        .card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .nft-info { display: flex; align-items: center; gap: 12px; }
+        .icon-box { width: 44px; height: 44px; background: #1c1c1e; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .name { font-size: 15px; font-weight: 700; }
+        .sub-text { font-size: 12px; color: var(--sub); }
+        .btn-sell { background: var(--accent); color: white; border: none; padding: 10px 22px; border-radius: 10px; font-weight: 700; font-size: 14px; }
+        .balance-card { background: #0c0c0c; padding: 20px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 20px; text-align: center; }
     </style>
 </head>
 <body>
@@ -39,40 +31,66 @@
     </div>
 
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('market', this)">Marketplace</div>
-        <div class="tab" onclick="switchTab('my-assets', this)">My Assets</div>
+        <div class="tab active" onclick="switchTab('assets', this)">My Assets</div>
+        <div class="tab" onclick="switchTab('market', this)">Marketplace</div>
     </div>
 
-    <div id="market" class="content active">
+    <div id="assets" class="content active">
+        <div class="balance-card">
+            <div style="font-size: 11px; color: var(--sub); letter-spacing: 1px;">PORTFOLIO ESTIMATE</div>
+            <div style="font-size: 28px; font-weight: 900; margin-top: 5px;">1,294.50 <span style="font-size: 16px; color: var(--accent);">TON</span></div>
+        </div>
+
         <div class="card">
-            <div class="img-container">
-                <img src="https://i.ibb.co/3Wq8zN4/image-337a3f.png" alt="NFT 1">
-            </div>
-            <div class="info">
-                <div class="name">Westside Sign #1863</div>
-                <div class="props">
-                    <div class="prop-item"><div class="p-label">Rarity</div><div class="p-val">Legendary</div></div>
-                    <div class="prop-item"><div class="p-label">Status</div><div class="p-val">Listed</div></div>
+            <div class="nft-info">
+                <div class="icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <div>
+                    <div class="name">@crypto_king</div>
+                    <div class="sub-text">Username</div>
                 </div>
             </div>
-            <div class="footer-card">
-                <div class="price">299 <span>TON</span></div>
-                <button class="btn btn-blue" onclick="action('buy')">Buy NFT</button>
+            <button class="btn-sell" onclick="action('sell', '@crypto_king')">Sell</button>
+        </div>
+
+        <div class="card">
+            <div class="nft-info">
+                <div class="icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                </div>
+                <div>
+                    <div class="name">+888 0551 1051</div>
+                    <div class="sub-text">Anonymous Number</div>
+                </div>
             </div>
+            <button class="btn-sell" onclick="action('sell', '+888 0551')">Sell</button>
         </div>
     </div>
 
-    <div id="my-assets" class="content">
-        <div style="background: #0c0c0c; padding: 16px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 20px; text-align: center;">
-            <div style="font-size: 11px; color: var(--sub);">ESTIMATED BALANCE</div>
-            <div style="font-size: 26px; font-weight: 900;">1,294.50 <span style="font-size: 16px; color: var(--accent);">TON</span></div>
-        </div>
-        <div class="card">
-            <div class="img-container">
-                <img src="https://i.ibb.co/qFmRLvM/image-337a08.png" alt="NFT 2">
-            </div>
-            <div class="info">
-                <div class="name">Westside Sign #10744</div>
-                <div class="props">
-                    <div class="prop-item"><div class="p-label">Owner</div><div class="p-val">You</div></div>
-                    <div class="prop-item"><div class="p-label">Status</div><div class="p-val">Minted</div>
+    <div id="market" class="content">
+        <div style="text-align: center; color: var(--sub); margin-top: 50px;">Marketplace is loading...</div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function switchTab(id, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById(id).classList.add('active');
+        }
+
+        function action(type, item) {
+            tg.sendData(JSON.stringify({action: type, asset: item}));
+            tg.showPopup({
+                title: 'Wallet Connect',
+                message: 'To sell ' + item + ', connect your TON wallet to sign the contract.',
+                buttons: [{type: 'default', text: 'Connect Tonkeeper'}]
+            });
+        }
+    </script>
+</body>
+</html>
